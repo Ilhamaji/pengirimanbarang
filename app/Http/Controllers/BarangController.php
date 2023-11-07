@@ -36,8 +36,11 @@ class BarangController extends Controller
         $barangs = new Barangs;
 
         $request->validate([
-            'nama' => 'required',
+            'namaBarang' => 'required',
+            'jenisBarang' => 'required',
+            'jmlBarang' => 'required',
             'beratBarang' => 'required',
+            'hargaBarang' => 'required',
         ]);
 
         $barangs->nama=$request->nama;

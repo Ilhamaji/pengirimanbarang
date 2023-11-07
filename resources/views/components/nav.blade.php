@@ -1,4 +1,4 @@
-<div class="fixed top-0 left-0 w-64 h-screen">
+<div class="fixed z-50 bg-white top-0 left-0 w-64 h-screen">
     <ul class="block">
         <li class="block pt-5 mx-14 rounded-md text-2xl font-semibold"><a href="">Antarkan</a></li>
     </ul>

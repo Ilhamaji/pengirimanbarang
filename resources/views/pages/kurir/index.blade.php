@@ -21,24 +21,50 @@
         </div>
     </div>
 
-    <div class="flex justify-between">
-        <div class="flex font-bold text-white bg-black rounded-md px-5 text-xl"><div class="m-auto">Tambah Kurir</div></div>
-        <form action="/kurir" method="post" class="inline ml-auto mr-0" onsubmit="return funcAdd('add')">
+    <button class="flex font-bold text-white bg-black w-48 py-2 rounded-md px-5 text-xl" onClick="myFunction()"><div class="m-auto">Tambah Kurir</div></button>
+    <div class="form-card z-10 flex">
+        <form action="/kurir" method="post" class="flex w-full rounded-lg h-20 my-2 border m-auto invisible hidden animate-[bounce_0.25s]" id="myPopup" onsubmit="return funcAdd('add')">
             @csrf
-            <input type="text" name="nama" onchange="getName(this.value)" placeholder="Nama" class="inline py-2 rounded-md border focus:outline-none focus:ring">
-            <input type="text" name="jenKel" onchange="getGender(this.value)" placeholder="Jenis Kelamin" class="inline py-2 rounded-md mx-2 border focus:outline-none focus:ring">
-            <input type="text" name="noHp" onchange="getPhoneNo(this.value)" placeholder="Nomor Handphone" class="inline py-2 rounded-md mx-2 border focus:outline-none focus:ring">
-            <input type="text" name="alamat" onchange="getAddress(this.value)" placeholder="Alamat" class="inline py-2 mx-2 rounded-md border focus:outline-none focus:ring">
-            <button type="submit" class="bg-black px-5 py-2 rounded-md focus:ring focus:outline-none hover:bg-neutral-700 text-white">Submit</button>
+            <div class="m-auto">
+            <input type="text" name="namaKurir" onchange="getName(this.value)" placeholder="Nama" class="inline px-2 mx-2 py-2 rounded-md border focus:outline-none focus:ring">
+            <input type="text" name="noHp" onchange="getPhoneNo(this.value)" placeholder="Nomor Handphone" class="inline px-2 mx-2 py-2 rounded-md border focus:outline-none focus:ring">
+            <select id="wilayah" name="wilayah" class="border py-2 rounded-md px-2 focus:outline-none focus:ring" onchange="getWilayah(this.value)">
+                <option selected>Wilayah</option>
+                <option value="Banjarsari">Banjarsari</option>
+                <option value="Laweyan">Laweyan</option>
+            </select>
+            <input type="text" name="alamat" onchange="getAddress(this.value)" placeholder="Alamat" class="inline px-2 mx-2 py-2 rounded-md border focus:outline-none focus:ring">
+            <select id="jenKel" name="jenKel" class="border py-2 rounded-md px-2 focus:outline-none focus:ring" onchange="getGender(this.value)">
+                <option selected>Jenis Kelamin</option>
+                <option value="l">Laki-laki</option>
+                <option value="p">Perempuan</option>
+            </select>
+            <button type="submit" class="bg-black mx-2 px-5 py-2 rounded-md focus:ring focus:outline-none hover:bg-neutral-700 text-white">Submit</button>
+            </div>
         </form>
     </div>
     
     <script>
-        let name, gender, phoneNo, address;
+        let status;
+        function myFunction() {
+            status = !status;
+            let popup = document.getElementById("myPopup");
+
+            if (status) {
+                popup.classList.remove("invisible", "hidden");
+                popup.classList.toggle("visible");
+            }else {
+                popup.classList.remove("visible");
+                popup.classList.toggle("invisible", "hidden");
+            }
+        }
+
+        let name, gender, phoneNo, address, region;
         let check = false;
         let check1 = false;
         let check2 = false;
         let check3 = false;
+        let check4 = false;
 
         function getName(nama){
             name = nama;
@@ -60,10 +86,16 @@
             check3 = true;
         }
 
+        function getWilayah(wilayah){
+            region = wilayah;
+            check4 = true;
+        }
+
         function funcAdd(x) {
             if (check && check1 && check2 && check3) {
                 return confirm(`Are you sure to ${x} ${name} ?`);
             }else{
+                console.log(check, check1, check2, check3, check4);
                 alert('Please fill the fields !')
             }
         }
@@ -72,13 +104,14 @@
         check1 = false;
         check2 = false;
         check3 = false;
+        check4 = false;
     </script>
 
     @foreach ($kurirs as $key => $kurir)
         <div class="hidden none">{{$key+1}}</div>
         <div class="py-2 flex {{!$key == 1 ? "" : "border-t"}}">
             <ul class="inline">
-                <li><div class="font-semibold">{{$kurir->nama}}</div></li>
+                <li><div class="font-semibold">{{$kurir->namaKurir}}</div></li>
                 <li><div class="text-sm text-neutral-400">{{$kurir->noHp}}</div></li>
             </ul>
             <ul class="inline ml-auto mr-0">
@@ -95,7 +128,7 @@
 
         <script>
             function funcDelete(x) {
-                return confirm(`Are you sure to ${x} {{$kurir->nama}} ?`);
+                return confirm(`Are you sure to ${x} {{$kurir->namaKurir}} ?`);
             }
         </script>
     @endforeach

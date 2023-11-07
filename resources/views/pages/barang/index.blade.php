@@ -21,17 +21,44 @@
         </div>
     </div>
 
-    <div class="flex justify-between">
-        <div class="flex font-bold text-white bg-black rounded-md px-5 text-xl"><div class="m-auto">Tambah Barang</div></div>
-        <form action="/barang" method="post" class="inline ml-auto mr-0" onsubmit="return funcAdd('add')">
+    <button class="flex font-bold text-white bg-black w-48 py-2 rounded-md px-5 text-xl" onClick="myFunction()"><div class="m-auto">Tambah Barang</div></button>
+    <div class="form-card z-10 flex">
+        <form action="/kurir" method="post" class="flex w-full rounded-lg h-20 my-2 border m-auto invisible hidden animate-[bounce_0.25s]" id="myPopup" onsubmit="return funcAdd('add')">
             @csrf
-            <input type="text" name="nama" placeholder="Nama" onchange="getName(this.value)" class="inline py-2 rounded-md border focus:outline-none focus:ring">
-            <input type="number" name="beratBarang" min="0" placeholder="Berat Barang (Kg)" onchange="getBerat(this.value)" class="inline py-2 rounded-md mx-2 border focus:outline-none focus:ring">
-            <button type="submit" class="bg-black px-5 py-2 rounded-md focus:ring focus:outline-none hover:bg-neutral-700 text-white">Submit</button>
+            <div class="m-auto">
+            <input type="text" name="namaKurir" onchange="getName(this.value)" placeholder="Nama" class="inline px-2 mx-2 py-2 rounded-md border focus:outline-none focus:ring">
+            <input type="text" name="noHp" onchange="getPhoneNo(this.value)" placeholder="Nomor Handphone" class="inline px-2 mx-2 py-2 rounded-md border focus:outline-none focus:ring">
+            <select id="wilayah" name="wilayah" class="border py-2 rounded-md px-2 focus:outline-none focus:ring" onchange="getWilayah(this.value)">
+                <option selected>Wilayah</option>
+                <option value="Banjarsari">Banjarsari</option>
+                <option value="Laweyan">Laweyan</option>
+            </select>
+            <input type="text" name="alamat" onchange="getAddress(this.value)" placeholder="Alamat" class="inline px-2 mx-2 py-2 rounded-md border focus:outline-none focus:ring">
+            <select id="jenKel" name="jenKel" class="border py-2 rounded-md px-2 focus:outline-none focus:ring" onchange="getGender(this.value)">
+                <option selected>Jenis Kelamin</option>
+                <option value="l">Laki-laki</option>
+                <option value="p">Perempuan</option>
+            </select>
+            <button type="submit" class="bg-black mx-2 px-5 py-2 rounded-md focus:ring focus:outline-none hover:bg-neutral-700 text-white">Submit</button>
+            </div>
         </form>
     </div>
     
     <script>
+        let status;
+        function myFunction() {
+            status = !status;
+            let popup = document.getElementById("myPopup");
+
+            if (status) {
+                popup.classList.remove("invisible", "hidden");
+                popup.classList.toggle("visible");
+            }else {
+                popup.classList.remove("visible");
+                popup.classList.toggle("invisible", "hidden");
+            }
+        }
+
         let name, weight;
         let check = false;
 

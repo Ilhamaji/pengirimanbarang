@@ -20,10 +20,13 @@ class Kurirs extends Authenticatable
     protected $primaryKey = "idKurir";
 
     protected $fillable = [
-        'nama',
+        'namaKurir',
         'jenKel',
         'noHp',
         'alamat',
+        'wilayah',
+        'updated_at',
+        'created_at',
     ];
 
     /**

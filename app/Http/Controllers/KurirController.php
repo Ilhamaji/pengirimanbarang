@@ -13,7 +13,7 @@ class KurirController extends Controller
     //
     public function index(): View
     {
-        $kurirs = Kurirs::select('*')->get();
+        $kurirs = DB::table('kurirs')->get();
         return view('pages.kurir.index', ['kurirs' => $kurirs, 'jmlKurirs' => $kurirs->count()]);
     }
 
@@ -21,16 +21,18 @@ class KurirController extends Controller
         $kurirs = new Kurirs;
 
         $request->validate([
-            'nama' => 'required',
-            'jenKel' => 'required',
+            'namaKurir' => 'required',
             'noHp' => 'required',
+            'wilayah' => 'required',
             'alamat' => 'required',
+            'jenKel' => 'required',
         ]);
 
-        $kurirs->nama=$request->nama;
-        $kurirs->jenKel=Str::lower($request->jenKel);
+        $kurirs->namaKurir=$request->namaKurir;
         $kurirs->noHp=$request->noHp;
+        $kurirs->wilayah=$request->wilayah;
         $kurirs->alamat=$request->alamat;
+        $kurirs->jenKel=Str::lower($request->jenKel);
         $kurirs->save();
 
         return redirect('/kurir');
@@ -52,10 +54,11 @@ class KurirController extends Controller
 
     public function update(Request $request, string $id) : RedirectResponse {
         $kurir = Kurirs::find($id)->update([
-            'nama' => $request->nama,
+            'namaKurir' => $request->nama,
             'jenKel' => $request->jenKel,
             'noHp' => $request->noHp,
             'alamat' => $request->alamat,
+            'wilayah' => $request->wilayah,
         ]);
 
         return redirect("kurir");
